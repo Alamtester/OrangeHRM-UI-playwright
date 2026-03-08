@@ -1,6 +1,82 @@
 import {test,expect } from '@playwright/test'
+import { loginPage } from '../pages/login.pages'
 
- async function attachScreenshot(page,testInfo,name){
+
+test('Check presence of username field',async ({page})=>{
+    const lpage = new loginPage(page);
+    
+    await lpage.goto();
+    await (lpage.presenceofusernamefield());
+})
+
+test('Check presence of password field',async ({page})=>{
+    const lpage = new loginPage(page);
+
+    await lpage.goto();
+    await lpage.presenceofpasswordfield();
+})
+
+test('Check presence of login button',async ({page})=>{
+    const lpage = new loginPage(page);
+
+    await lpage.goto();
+    await lpage.presenceofloginbtn();
+})
+
+test('Check forgot your password text',async ({page})=>{
+    const lpage = new loginPage(page);
+    await lpage.goto();
+
+    await lpage.forgotyourpasswordhavetext();
+})
+
+test('Check presence of forgot your password',async ({page})=>{
+    const lpage = new loginPage(page);
+    await lpage.goto();
+    await lpage.presenceofforgotyourpassword();
+})
+
+test('Check forgot your password is clickable or not',async ({page})=>{
+    const lpage = new loginPage(page);
+    await lpage.goto();
+    await lpage.forgotyourpasswordclickable();
+})
+
+test('Check login with valid credentials',async ({page})=>{
+    const lpage = new loginPage(page);
+
+    await lpage.goto();
+    await lpage.login('Admin','admin123');
+
+    await expect(page).toHaveTitle('OrangeHRM');
+
+})
+
+test('Check login with Invalid credentials',async ({page})=>{
+    const lpage = new loginPage(page);
+    await lpage.goto();
+    await lpage.login('Admin23234','464565');
+})
+
+test('Check login when username is correct and password is incorrect',async ({page})=>{
+    const lpage = new loginPage(page);
+    await lpage.goto();
+    await lpage.login('Admin','34dfgd');
+})
+
+test('Check login when username is incorrect and password is correct',async ({page})=>{
+
+    const lpage = new loginPage(page);
+    await lpage.goto();
+
+    await lpage.login('dsfd87987','admin123');
+
+})
+
+
+
+
+ /*async function attachScreenshot(page,testInfo,name){
     const screenshot = await page.screenshot();
     await testInfo.attach(name,{
         body: screenshot,
@@ -51,3 +127,11 @@ test('Login with invalid credentials',async({page},testInfo)=>{
     await attachScreenshot(page,testInfo,'Login with Invalid input');
 
 })
+
+async function failureattachscreenshot(page,testInfo,name){
+    const screenshot = await page.screenshot();
+    if(testInfo.status !== 'passed'){
+        const screenshot = await page.screenshot();
+    }
+}*/
+
